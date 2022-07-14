@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "da9058e6-5ae5-46aa-92b3-7936836d346f",
+		"name": "HRIS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "all employees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "employee by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/insurance/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"insurance",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "employee",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"employeeId\": 2,\n    \"benefitId\": 5,\n    \"firstName\": \"EDWARD\",\n    \"lastName\": \"CHASE\",\n    \"email\": \"picipo3704@satedly.com\",\n    \"birthDate\": \"2002-06-01T05:00:00.000+00:00\",\n    \"jobRole\": \"Human Resources\",\n    \"address\": \"3717 Stiles Street Pittsburgh\",\n    \"telephoneNumber\": \"14244351204\",\n    \"state\": \"PA\",\n    \"inTraining\": true,\n    \"performance\": 5,\n    \"startedDate\": \"2022-04-17T04:00:00.000+00:00\",\n    \"lastUpdate\": \"04:34:33\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/employees/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "employee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"benefitId\": 9,\n    \"firstName\": \"Manila\",\n    \"lastName\": \"Paudyal\",\n    \"email\": \"manila@sdf.com\",\n    \"birthDate\": \"1982-09-11\",\n    \"jobRole\": \"Teacher\",\n    \"address\": \"222 Awesome Drive, Indiana\",\n    \"telephoneNumber\": \"123-123-1234\",\n    \"state\": \"IN\",\n    \"inTraining\": true,\n    \"performance\": 8,\n    \"startedDate\": \"2022-08-10\",\n    \"lastUpdates\": \"Testing\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "employee by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/employees/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"11"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

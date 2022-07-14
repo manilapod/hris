@@ -45,7 +45,11 @@ public class EmployeeController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable("id") Integer id){
-        employeesRepository.deleteById(id);
-        return new ResponseEntity<String>("Employee deleted successfully!.", HttpStatus.OK);
+        try {
+            employeesRepository.deleteById(id);
+            return new ResponseEntity<String>("Employee deleted successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("Employee Not Found!", HttpStatus.NOT_FOUND);
+        }
     }
 }
