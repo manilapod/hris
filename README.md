@@ -64,3 +64,24 @@ A good starting point would be to look at the following classes:
 - [EmployeeControllerTest](src/test/java/org/goup10/hris/controllers/EmployeeControllerTest.java) - which test the `EmployeeController`
 
 There is also relevant [HELP](HELP.md) document for you to explore further.
+
+### Command Line Interface (CLI)
+
+The frontend CLI for this project resides in the [cli](src/main/java/org/goup10/hris/cli) package. The design
+has an abstraction for a command, which is an action such as getting all employees information from database,
+retrieving an employee information using id, and so on. A group of commands makes up a component, such as
+employee management, benefit management, and so on.
+
+Take a look at the [EmployeeComponent](src/main/java/org/goup10/hris/cli/employee/EmployeeComponent.java) for an example
+of component. We register a set of commands that the Employee component supports, in that class. Use
+the [GetEmployeeByIdCommand](src/main/java/org/goup10/hris/cli/employee/GetEmployeeByIdCommand.java) class
+as a reference for how to create a command.
+
+The [RootComponent](src/main/java/org/goup10/hris/cli/RootComponent.java) represents a group of all
+HRIS components such as EmployeeComponent, BenefitComponent, and so on.
+
+As these components get developed, we will need to update the `RootComponent` class to be able to
+run the commands under those components. 
+
+You can simply run the CLI, by running the [HrisCliApplication](src/main/java/org/goup10/hris/cli/HrisCliApplication.java)
+on IntelliJ.
