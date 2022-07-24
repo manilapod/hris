@@ -1,4 +1,5 @@
 # Human Resource Information System (HRIS)
+HRIS provides console based human resource management features.
 
 ## Development Notes
 
