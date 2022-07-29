@@ -41,19 +41,73 @@ public class PayRollControllerTest {
     }
     @Test
     public void givenPayRollObject_whenCreatePayRoll_thenReturnSavedPayRoll() throws Exception {
-        PayRoll payroll = PayRoll.builder().build();
+        PayRoll payroll = PayRoll.builder()
+                .payrollId(1)
+                .employee_id(1)
+                .hourly_rate(13l)
+                .gross_salary(100l)
+                .salary(80l)
+                .yearly_bonus(10L)
+                .state_tax(5l)
+                .federal_tax(12l)
+                .employment_gender(Long.valueOf(String.valueOf("M")))
+                .weekly_hours(6)
+                .pay_cycle("2 week")
+                .extra_hour(4)
+                .effective("yes")
+                .build();
 
         ResultActions resultActions = mockMvc.perform(post("/payroll")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(payroll)));
         resultActions.andDo(print()).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.payrollId", is(payroll.getPayrollId())));
+                .andExpect(jsonPath("$.payrollId", is(payroll.getPayrollId())))
+                .andExpect(jsonPath("$.employee_id", is(payroll.getEmployee_id())))
+                .andExpect(jsonPath("$.gross_salary", is(payroll.getGross_salary())))
+                .andExpect(jsonPath("$.pay_cycle", is(payroll.getPay_cycle())))
+                .andExpect(jsonPath("$.effective", is(payroll.getEffective())))
+                .andExpect(jsonPath("$.employment_gender", is(payroll.getEmployment_gender())))
+                .andExpect(jsonPath("$.salary", is(payroll.getSalary())))
+                .andExpect(jsonPath("$.yearly_bonus", is(payroll.getYearly_bonus())))
+                .andExpect(jsonPath("$.state_tax", is(payroll.getState_tax())))
+                .andExpect(jsonPath("$.federal_tax", is(payroll.getFederal_tax())))
+                .andExpect(jsonPath("$.weekly_hours", is(payroll.getWeekly_hours())))
+                .andExpect(jsonPath("$.extra_hour", is(payroll.getExtra_hour())))
+                .andExpect(jsonPath("$.hourly_rate", is(payroll.getHourly_rate())));
     }
     @Test
     public void givenListOfPayRoll_whenGetAllPayRoll_thenReturnPayRollList() throws Exception {
         List<PayRoll> payrollList = new ArrayList<>();
-        PayRoll payroll1 = PayRoll.builder().build();
-        PayRoll payroll2 = PayRoll.builder().build();
+        PayRoll payroll1 = PayRoll.builder()
+                .payrollId(1)
+                .employee_id(1)
+                .hourly_rate(13l)
+                .gross_salary(100l)
+                .salary(80l)
+                .yearly_bonus(10L)
+                .state_tax(5l)
+                .federal_tax(12l)
+                .employment_gender(Long.valueOf(String.valueOf("M")))
+                .weekly_hours(6)
+                .pay_cycle("2 week")
+                .extra_hour(4)
+                .effective("yes")
+                .build();
+        PayRoll payroll2 = PayRoll.builder()
+                .payrollId(1)
+                .employee_id(1)
+                .hourly_rate(13l)
+                .gross_salary(100l)
+                .salary(80l)
+                .yearly_bonus(10L)
+                .state_tax(5l)
+                .federal_tax(12l)
+                .employment_gender(Long.valueOf(String.valueOf("M")))
+                .weekly_hours(6)
+                .pay_cycle("2 week")
+                .extra_hour(4)
+                .effective("yes")
+                .build();
 
         payrollList.add(payroll1);
         payrollList.add(payroll2);
@@ -66,17 +120,48 @@ public class PayRollControllerTest {
     }
     @Test
     public void givenPayRollId_whenGetPayRollById_thenReturnPayRollObject() throws Exception{
-        PayRoll payroll = PayRoll.builder().build();
+        PayRoll payroll = PayRoll.builder()
+                .payrollId(1)
+                .employee_id(1)
+                .hourly_rate(13l)
+                .gross_salary(100l)
+                .salary(80l)
+                .yearly_bonus(10L)
+                .state_tax(5l)
+                .federal_tax(12l)
+                .employment_gender(Long.valueOf(String.valueOf("M")))
+                .weekly_hours(6)
+                .pay_cycle("2 week")
+                .extra_hour(4)
+                .effective("yes")
+                .build();
         PayRoll savedPayRoll = payrollRepository.save(payroll);
         ResultActions resultActions = mockMvc.perform(get("/payroll/{id}", savedPayRoll.getPayrollId()));
 
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.payrollId", is(payroll.getPayrollId())));
+                .andExpect(jsonPath("$.gross_salary", is(payroll.getGross_salary())))
+                .andExpect(jsonPath("$.weekly_hours", is(payroll.getWeekly_hours())))
+                .andExpect(jsonPath("$.extra_hour", is(payroll.getExtra_hour())))
+                .andExpect(jsonPath("$.hourly_rate", is(payroll.getHourly_rate())));
     }
     @Test
     public void givenInvalidPayRollId_whenGetPayRollById_thenReturnEmpty() throws Exception{
         Integer invalidPayRollId = 1000;
-        PayRoll payroll = PayRoll.builder().build();
+        PayRoll payroll = PayRoll.builder()
+                .payrollId(1)
+                .employee_id(1)
+                .hourly_rate(13l)
+                .gross_salary(100l)
+                .salary(80l)
+                .yearly_bonus(10L)
+                .state_tax(5l)
+                .federal_tax(12l)
+                .employment_gender(Long.valueOf(String.valueOf("M")))
+                .weekly_hours(6)
+                .pay_cycle("2 week")
+                .extra_hour(4)
+                .effective("yes")
+                .build();
         PayRoll savedPayRoll = payrollRepository.save(payroll);
         ResultActions resultActions = mockMvc.perform(put("/payroll/{id}", invalidPayRollId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -85,7 +170,21 @@ public class PayRollControllerTest {
     }
     @Test
     public void givenUpdatedPayRoll_whenUpdatePayRoll_thenReturnUpdatePayRollObject() throws Exception{
-        PayRoll payroll = PayRoll.builder().build();
+        PayRoll payroll = PayRoll.builder()
+                .payrollId(1)
+                .employee_id(1)
+                .hourly_rate(13l)
+                .gross_salary(100l)
+                .salary(80l)
+                .yearly_bonus(10L)
+                .state_tax(5l)
+                .federal_tax(12l)
+                .employment_gender(Long.valueOf(String.valueOf("M")))
+                .weekly_hours(6)
+                .pay_cycle("2 week")
+                .extra_hour(4)
+                .effective("yes")
+                .build();
         PayRoll savedPayRoll = payrollRepository.save(payroll);
 
         savedPayRoll.getGross_salary();
@@ -101,7 +200,21 @@ public class PayRollControllerTest {
     @Test
     public void givenUpdatedPayRoll_whenUpdatePayRoll_thenReturn404() throws Exception{
         Integer invalidPayRollId = 1000;
-        PayRoll payroll = PayRoll.builder().build();
+        PayRoll payroll = PayRoll.builder()
+                .payrollId(1)
+                .employee_id(1)
+                .hourly_rate(13l)
+                .gross_salary(100l)
+                .salary(80l)
+                .yearly_bonus(10L)
+                .state_tax(5l)
+                .federal_tax(12l)
+                .employment_gender(Long.valueOf(String.valueOf("M")))
+                .weekly_hours(6)
+                .pay_cycle("2 week")
+                .extra_hour(4)
+                .effective("yes")
+                .build();
         PayRoll savedPayRoll = payrollRepository.save(payroll);
         ResultActions resultActions = mockMvc.perform(put("/payroll/{id}", invalidPayRollId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -119,7 +232,21 @@ public class PayRollControllerTest {
     @Test
     public void givenPayRollId_whenDeletePayRoll_thenReturn404() throws Exception{
         Integer invalidPayRollId = 1000;
-        PayRoll payroll = PayRoll.builder().build();
+        PayRoll payroll = PayRoll.builder()
+                .payrollId(1)
+                .employee_id(1)
+                .hourly_rate(13l)
+                .gross_salary(100l)
+                .salary(80l)
+                .yearly_bonus(10L)
+                .state_tax(5l)
+                .federal_tax(12l)
+                .employment_gender(Long.valueOf(String.valueOf("M")))
+                .weekly_hours(6)
+                .pay_cycle("2 week")
+                .extra_hour(4)
+                .effective("yes")
+                .build();
         PayRoll savedPayRoll = payrollRepository.save(payroll);
 
         ResultActions resultActions = mockMvc.perform(delete("/payroll/{id}", invalidPayRollId));

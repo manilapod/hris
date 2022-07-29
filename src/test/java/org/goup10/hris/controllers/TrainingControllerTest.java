@@ -41,19 +41,37 @@ public class TrainingControllerTest {
     }
     @Test
     public void givenTrainingObject_whenCreateTraining_thenReturnSavedTraining() throws Exception {
-        Training training = Training.builder().build();
+        Training training = Training.builder()
+                .trainingId(1)
+                .employeeId(1)
+                .trainee_name("Test")
+                .completed("No")
+                .build();
 
         ResultActions resultActions = mockMvc.perform(post("/training")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(training)));
         resultActions.andDo(print()).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.trainingId", is(training.getTrainingId())));
+                .andExpect(jsonPath("$.trainingId", is(training.getTrainingId())))
+                .andExpect(jsonPath("$.employeeId", is(training.getEmployeeId())))
+                .andExpect(jsonPath("$.trainee_name", is(training.getTrainee_name())))
+                .andExpect(jsonPath("$.completed", is(training.getCompleted())));
     }
     @Test
     public void givenListOfTraining_whenGetAllTraining_thenReturnTrainingList() throws Exception {
         List<Training> trainingList = new ArrayList<>();
-        Training training1 = Training.builder().build();
-        Training training2 = Training.builder().build();
+        Training training1 = Training.builder()
+                .trainingId(1)
+                .employeeId(1)
+                .trainee_name("Test")
+                .completed("No")
+                .build();
+        Training training2 = Training.builder()
+                .trainingId(1)
+                .employeeId(1)
+                .trainee_name("Test")
+                .completed("No")
+                .build();
 
         trainingList.add(training1);
         trainingList.add(training2);
@@ -66,18 +84,29 @@ public class TrainingControllerTest {
     }
     @Test
     public void givenTrainingId_whenGetTrainingById_thenReturnTrainingObject() throws Exception{
-        Training training = Training.builder().build();
+        Training training = Training.builder()
+                .trainingId(1)
+                .employeeId(1)
+                .trainee_name("Test")
+                .completed("No")
+                .build();
         Training savedTraining = trainingRepository.save(training);
         ResultActions resultActions = mockMvc.perform(get("/training/{id}", training.getTrainingId()));
 
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.trainingId", is(training.getTrainingId())));
+                .andExpect(jsonPath("$.trainee_name", is(training.getTrainee_name())))
+                .andExpect(jsonPath("$.completed", is(training.getCompleted())));
 
     }
     @Test
     public void givenInvalidTrainingId_whenGetTrainingById_thenReturnEmpty() throws Exception{
         Integer invalidTrainingId = 1000;
-        Training training = Training.builder().build();
+        Training training = Training.builder()
+                .trainingId(1)
+                .employeeId(1)
+                .trainee_name("Test")
+                .completed("No")
+                .build();
         Training savedTraining = trainingRepository.save(training);
         ResultActions resultActions = mockMvc.perform(put("/training/{id}", invalidTrainingId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +115,12 @@ public class TrainingControllerTest {
     }
     @Test
     public void givenUpdatedTraining_whenUpdateTraining_thenReturnUpdateTrainingObject() throws Exception{
-        Training training = Training.builder().build();
+        Training training = Training.builder()
+                .trainingId(1)
+                .employeeId(1)
+                .trainee_name("Test")
+                .completed("No")
+                .build();
         Training savedTraining = trainingRepository.save(training);
 
         savedTraining.getTrainee_name();
@@ -102,7 +136,12 @@ public class TrainingControllerTest {
     @Test
     public void givenUpdatedTraining_whenUpdateTraining_thenReturn404() throws Exception{
         Integer invalidTrainingId = 1000;
-        Training training = Training.builder().build();
+        Training training = Training.builder()
+                .trainingId(1)
+                .employeeId(1)
+                .trainee_name("Test")
+                .completed("No")
+                .build();
         Training savedTraining = trainingRepository.save(training);
         ResultActions resultActions = mockMvc.perform(put("/training/{id}", invalidTrainingId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +150,12 @@ public class TrainingControllerTest {
     }
     @Test
     public void givenTrainingId_whenDeleteTraining_thenReturn200() throws Exception{
-        Training training = Training.builder().build();
+        Training training = Training.builder()
+                .trainingId(1)
+                .employeeId(1)
+                .trainee_name("Test")
+                .completed("No")
+                .build();
         Training savedTraining = trainingRepository.save(training);
 
         ResultActions resultActions = mockMvc.perform(delete("/training/{id}", savedTraining.getTrainingId()));
@@ -120,7 +164,12 @@ public class TrainingControllerTest {
     @Test
     public void givenTrainingId_whenDeleteTraining_thenReturn404() throws Exception{
         Integer invalidTrainingId = 1000;
-        Training training = Training.builder().build();
+        Training training = Training.builder()
+                .trainingId(1)
+                .employeeId(1)
+                .trainee_name("Test")
+                .completed("No")
+                .build();
         Training savedTraining = trainingRepository.save(training);
 
         ResultActions resultActions = mockMvc.perform(delete("/training/{id}", invalidTrainingId));

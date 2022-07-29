@@ -42,19 +42,41 @@ public class RetirementControllerTest {
     }
     @Test
     public void givenRetirementObject_whenCreateRetirement_thenReturnSavedPayRoll() throws Exception {
-        Retirement retirement = Retirement.builder().build();
+        Retirement retirement = Retirement.builder()
+                .retirementId(1)
+                .benefitId(1)
+                .irs_amount(50)
+                .ptb_amount(20)
+                .tsa_amount(20)
+                .build();
 
         ResultActions resultActions = mockMvc.perform(post("/retirement")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(retirement)));
         resultActions.andDo(print()).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.retirementId", is(retirement.getRetirementId())));
+                .andExpect(jsonPath("$.retirementId", is(retirement.getRetirementId())))
+                .andExpect(jsonPath("$.benefitId", is(retirement.getBenefitId())))
+                .andExpect(jsonPath("$.irs_amount", is(retirement.getIrs_amount())))
+                .andExpect(jsonPath("$.ptb_amount", is(retirement.getPtb_amount())))
+                .andExpect(jsonPath("$.tsa_amount", is(retirement.getTsa_amount())));
     }
     @Test
     public void givenListOfRetirement_whenGetAllRetirement_thenReturnRetirementList() throws Exception {
         List<Retirement> retirementList = new ArrayList<>();
-        Retirement retirement1 = Retirement.builder().build();
-        Retirement retirement2 = Retirement.builder().build();
+        Retirement retirement1 = Retirement.builder()
+                .retirementId(1)
+                .benefitId(1)
+                .irs_amount(50)
+                .ptb_amount(20)
+                .tsa_amount(20)
+                .build();
+        Retirement retirement2 = Retirement.builder()
+                .retirementId(1)
+                .benefitId(1)
+                .irs_amount(50)
+                .ptb_amount(20)
+                .tsa_amount(20)
+                .build();
 
         retirementList.add(retirement1);
         retirementList.add(retirement2);
@@ -67,17 +89,31 @@ public class RetirementControllerTest {
     }
     @Test
     public void givenRetirementId_whenGetRetirementById_thenReturnRetirementObject() throws Exception{
-        Retirement retirement = Retirement.builder().build();
+        Retirement retirement = Retirement.builder()
+                .retirementId(1)
+                .benefitId(1)
+                .irs_amount(50)
+                .ptb_amount(20)
+                .tsa_amount(20)
+                .build();
         Retirement savedRetirement = retirementRepository.save(retirement);
         ResultActions resultActions = mockMvc.perform(get("/retirement/{id}", savedRetirement.getRetirementId()));
 
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.retirementId", is(retirement.getRetirementId())));
+                .andExpect(jsonPath("$.irs_amount", is(retirement.getIrs_amount())))
+                .andExpect(jsonPath("$.ptb_amount", is(retirement.getPtb_amount())))
+                .andExpect(jsonPath("$.tsa_amount", is(retirement.getTsa_amount())));
     }
     @Test
     public void givenInvalidRetirementId_whenGetRetirementById_thenReturnEmpty() throws Exception{
         Integer invalidRetirementId = 1000;
-        Retirement retirement = Retirement.builder().build();
+        Retirement retirement = Retirement.builder()
+                .retirementId(1)
+                .benefitId(1)
+                .irs_amount(50)
+                .ptb_amount(20)
+                .tsa_amount(20)
+                .build();
         Retirement savedRetirement = retirementRepository.save(retirement);
         ResultActions resultActions = mockMvc.perform(put("/retirement/{id}", invalidRetirementId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +122,13 @@ public class RetirementControllerTest {
     }
     @Test
     public void givenUpdatedRetirement_whenUpdateRetirement_thenReturnUpdateRetirementObject() throws Exception{
-        Retirement retirement = Retirement.builder().build();
+        Retirement retirement = Retirement.builder()
+                .retirementId(1)
+                .benefitId(1)
+                .irs_amount(50)
+                .ptb_amount(20)
+                .tsa_amount(20)
+                .build();
         Retirement savedRetirement = retirementRepository.save(retirement);
 
         savedRetirement.getIrs_amount();
@@ -101,7 +143,13 @@ public class RetirementControllerTest {
     @Test
     public void givenUpdatedRetirement_whenUpdateRetirement_thenReturn404() throws Exception{
         Integer invalidRetirementId = 1000;
-        Retirement retirement = Retirement.builder().build();
+        Retirement retirement = Retirement.builder()
+                .retirementId(1)
+                .benefitId(1)
+                .irs_amount(50)
+                .ptb_amount(20)
+                .tsa_amount(20)
+                .build();
         Retirement savedRetirement = retirementRepository.save(retirement);
         ResultActions resultActions = mockMvc.perform(put("/retirement/{id}", invalidRetirementId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -110,7 +158,13 @@ public class RetirementControllerTest {
     }
     @Test
     public void givenRetirementId_whenDeleteRetirement_thenReturn200() throws Exception{
-        Retirement retirement = Retirement.builder().build();
+        Retirement retirement = Retirement.builder()
+                .retirementId(1)
+                .benefitId(1)
+                .irs_amount(50)
+                .ptb_amount(20)
+                .tsa_amount(20)
+                .build();
         Retirement savedRetirement = retirementRepository.save(retirement);
 
         ResultActions resultActions = mockMvc.perform(delete("/retirement/{id}", savedRetirement.getRetirementId()));
@@ -119,7 +173,13 @@ public class RetirementControllerTest {
     @Test
     public void givenRetirementId_whenDeleteRetirement_thenReturn404() throws Exception{
         Integer invalidRetirementId = 1000;
-        Retirement retirement = Retirement.builder().build();
+        Retirement retirement = Retirement.builder()
+                .retirementId(1)
+                .benefitId(1)
+                .irs_amount(50)
+                .ptb_amount(20)
+                .tsa_amount(20)
+                .build();
         Retirement savedRetirement = retirementRepository.save(retirement);
 
 

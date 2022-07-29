@@ -40,19 +40,37 @@ public class TaxControllerTest {
     }
     @Test
     public void givenTaxObject_whenCreateTax_thenReturnSavedTax() throws Exception {
-        Tax tax = Tax.builder().build();
+        Tax tax = Tax.builder()
+                .taxId(1)
+                .federal_prem(5)
+                .payrollId(1)
+                .state_prem(2)
+                .build();
 
         ResultActions resultActions = mockMvc.perform(post("/tax")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(tax)));
         resultActions.andDo(print()).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.taxId", is(tax.getTaxId())));
+                .andExpect(jsonPath("$.taxId", is(tax.getTaxId())))
+                .andExpect(jsonPath("$.federal_prem", is(tax.getPayrollId())))
+                .andExpect(jsonPath("$.taxId", is(tax.getFederal_prem())))
+                .andExpect(jsonPath("$.state_prem", is(tax.getState_prem())));
     }
     @Test
     public void givenListOfTax_whenGetAllTax_thenReturnTaxList() throws Exception {
         List<Tax> taxList = new ArrayList<>();
-        Tax tax1 = Tax.builder().build();
-        Tax tax2 = Tax.builder().build();
+        Tax tax1 = Tax.builder()
+                .taxId(1)
+                .federal_prem(5)
+                .payrollId(1)
+                .state_prem(2)
+                .build();
+        Tax tax2 = Tax.builder()
+                .taxId(1)
+                .federal_prem(5)
+                .payrollId(1)
+                .state_prem(2)
+                .build();
 
         taxList.add(tax1);
         taxList.add(tax2);
@@ -65,18 +83,29 @@ public class TaxControllerTest {
     }
     @Test
     public void givenTaxId_whenGetTaxById_thenReturnTaxObject() throws Exception{
-        Tax tax = Tax.builder().build();
+        Tax tax = Tax.builder()
+                .taxId(1)
+                .federal_prem(5)
+                .payrollId(1)
+                .state_prem(2)
+                .build();
         Tax savedTax = taxRepository.save(tax);
         ResultActions resultActions = mockMvc.perform(get("/tax/{id}", savedTax.getTaxId()));
 
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.taxId", is(tax.getTaxId())));
+                .andExpect(jsonPath("$.federal_prem", is(tax.getPayrollId())))
+                .andExpect(jsonPath("$.state_prem", is(tax.getState_prem())));
 
     }
     @Test
     public void givenInvalidTaxId_whenGetTaxById_thenReturnEmpty() throws Exception{
         Integer invalidTaxId = 1000;
-        Tax tax = Tax.builder().build();
+        Tax tax = Tax.builder()
+                .taxId(1)
+                .federal_prem(5)
+                .payrollId(1)
+                .state_prem(2)
+                .build();
         Tax savedTax = taxRepository.save(tax);
         ResultActions resultActions = mockMvc.perform(put("/tax/{id}", invalidTaxId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -85,7 +114,12 @@ public class TaxControllerTest {
     }
     @Test
     public void givenUpdatedTax_whenUpdateTax_thenReturnUpdateTaxObject() throws Exception{
-        Tax tax = Tax.builder().build();
+        Tax tax = Tax.builder()
+                .taxId(1)
+                .federal_prem(5)
+                .payrollId(1)
+                .state_prem(2)
+                .build();
         Tax savedTax = taxRepository.save(tax);
 
         savedTax.setFederal_prem(3);
@@ -101,7 +135,12 @@ public class TaxControllerTest {
     @Test
     public void givenUpdatedTax_whenUpdateTax_thenReturn404() throws Exception{
         Integer invalidTaxId = 1000;
-        Tax tax = Tax.builder().build();
+        Tax tax = Tax.builder()
+                .taxId(1)
+                .federal_prem(5)
+                .payrollId(1)
+                .state_prem(2)
+                .build();
         Tax savedTax = taxRepository.save(tax);
         ResultActions resultActions = mockMvc.perform(put("/tax/{id}", invalidTaxId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -110,7 +149,12 @@ public class TaxControllerTest {
     }
     @Test
     public void givenTaxId_whenDeleteTax_thenReturn200() throws Exception{
-        Tax tax = Tax.builder().build();
+        Tax tax = Tax.builder()
+                .taxId(1)
+                .federal_prem(5)
+                .payrollId(1)
+                .state_prem(2)
+                .build();
         Tax savedTax = taxRepository.save(tax);
 
         ResultActions resultActions = mockMvc.perform(delete("/tax/{id}", savedTax.getTaxId()));
@@ -119,7 +163,12 @@ public class TaxControllerTest {
     @Test
     public void givenTaxId_whenDeleteTax_thenReturn404() throws Exception{
         Integer invalidTaxId = 1000;
-        Tax tax = Tax.builder().build();
+        Tax tax = Tax.builder()
+                .taxId(1)
+                .federal_prem(5)
+                .payrollId(1)
+                .state_prem(2)
+                .build();
         Tax savedTax = taxRepository.save(tax);
 
         ResultActions resultActions = mockMvc.perform(delete("/tax/{id}", invalidTaxId));

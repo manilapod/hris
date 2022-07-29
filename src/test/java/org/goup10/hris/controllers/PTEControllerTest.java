@@ -42,19 +42,60 @@ public class PTEControllerTest {
     @Test
     public void givenPTEObject_whenCreatePTE_thenReturnSavedPTE() throws Exception {
         PTE pte = PTE.builder()
+                .pteId()
+                .trainingId()
+                .email()
+                .app_status()
+                .first_name()
+                .last_name()
+                .position()
+                .zip_code()
+                .data_applied()
+                .last_update()
                 .build();
 
         ResultActions resultActions = mockMvc.perform(post("/pte")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(pte)));
         resultActions.andDo(print()).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.pteId", is(pte.getPteId())));
+                .andExpect(jsonPath("$.pteId", is(pte.getPteId())))
+                .andExpect(jsonPath("$.trainingId", is(pte.getTrainingId())))
+                .andExpect(jsonPath("$.email", is(pte.getEmail())))
+                .andExpect(jsonPath("$.app_status", is(pte.getApp_status())))
+                .andExpect(jsonPath("$.first_name", is(pte.getFirst_name())))
+                .andExpect(jsonPath("$.last_name", is(pte.getLast_name())))
+                .andExpect(jsonPath("$.position", is(pte.getPosition())))
+                .andExpect(jsonPath("$.zip_code", is(pte.getZip_code())))
+                .andExpect(jsonPath("$.data_applied", is(pte.getData_applied())))
+                .andExpect(jsonPath("$.last_update", is(pte.getLast_update())));
     }
     @Test
     public void givenListOfPTE_whenGetAllPTE_thenReturnPTEList() throws Exception {
         List<PTE> pteList = new ArrayList<>();
-        PTE pte1 = PTE.builder().build();
-        PTE pte2 = PTE.builder().build();
+        PTE pte1 = PTE.builder()
+                .pteId()
+                .trainingId()
+                .email()
+                .app_status()
+                .first_name()
+                .last_name()
+                .position()
+                .zip_code()
+                .data_applied()
+                .last_update()
+                .build();
+        PTE pte2 = PTE.builder()
+                .pteId()
+                .trainingId()
+                .email()
+                .app_status()
+                .first_name()
+                .last_name()
+                .position()
+                .zip_code()
+                .data_applied()
+                .last_update()
+                .build();
 
         pteList.add(pte1);
         pteList.add(pte2);
@@ -67,17 +108,41 @@ public class PTEControllerTest {
     }
     @Test
     public void givenPTEId_whenGetPTEById_thenReturnPTEObject() throws Exception{
-        PTE pte = PTE.builder().build();
+        PTE pte = PTE.builder()
+                .pteId()
+                .trainingId()
+                .email()
+                .app_status()
+                .first_name()
+                .last_name()
+                .position()
+                .zip_code()
+                .data_applied()
+                .last_update()
+                .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(get("/pte/{id}", savedPTE.getPteId()));
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.pteId", is(pte.getPteId())));
+                .andExpect(jsonPath("$.first_name", is(pte.getFirst_name())))
+                .andExpect(jsonPath("$.last_name", is(pte.getLast_name())))
+                .andExpect(jsonPath("$.position", is(pte.getPosition())))
 
     }
     @Test
     public void givenInvalidPTEId_whenGetPTEById_thenReturnEmpty() throws Exception{
         Integer invalidPTEId = 1000;
-        PTE pte = PTE.builder().build();
+        PTE pte = PTE.builder()
+                .pteId()
+                .trainingId()
+                .email()
+                .app_status()
+                .first_name()
+                .last_name()
+                .position()
+                .zip_code()
+                .data_applied()
+                .last_update()
+                .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(put("/pte/{id}", invalidPTEId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +151,18 @@ public class PTEControllerTest {
     }
     @Test
     public void givenUpdatedPTE_whenUpdatePTE_thenReturnUpdatePTEObject() throws Exception{
-        PTE pte = PTE.builder().build();
+        PTE pte = PTE.builder()
+                .pteId()
+                .trainingId()
+                .email()
+                .app_status()
+                .first_name()
+                .last_name()
+                .position()
+                .zip_code()
+                .data_applied()
+                .last_update()
+                .build();
         PTE savedPTE = pteRepository.save(pte);
 
         savedPTE.getFirst_name();
@@ -102,7 +178,18 @@ public class PTEControllerTest {
     @Test
     public void givenUpdatedPTE_whenUpdatePTE_thenReturn404() throws Exception{
         Integer invalidPTEId = 1000;
-        PTE pte = PTE.builder().build();
+        PTE pte = PTE.builder()
+                .pteId()
+                .trainingId()
+                .email()
+                .app_status()
+                .first_name()
+                .last_name()
+                .position()
+                .zip_code()
+                .data_applied()
+                .last_update()
+                .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(put("/pte/{id}", invalidPTEId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +198,18 @@ public class PTEControllerTest {
     }
     @Test
     public void givenPTEId_whenDeletePTE_thenReturn200() throws Exception{
-        PTE pte = PTE.builder().build();
+        PTE pte = PTE.builder()
+                .pteId()
+                .trainingId()
+                .email()
+                .app_status()
+                .first_name()
+                .last_name()
+                .position()
+                .zip_code()
+                .data_applied()
+                .last_update()
+                .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(delete("/pte/{id}", savedPTE.getPteId()));
         resultActions.andExpect(status().isOk()).andDo(print());
@@ -119,7 +217,18 @@ public class PTEControllerTest {
     @Test
     public void givenPTEId_whenDeletePTE_thenReturn404() throws Exception{
         Integer invalidPTEId = 1000;
-        PTE pte = PTE.builder().build();
+        PTE pte = PTE.builder()
+                .pteId()
+                .trainingId()
+                .email()
+                .app_status()
+                .first_name()
+                .last_name()
+                .position()
+                .zip_code()
+                .data_applied()
+                .last_update()
+                .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(delete("/pte/{id}", invalidPTEId));
         resultActions.andExpect(status().isNotFound()).andDo(print());
