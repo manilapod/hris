@@ -17,7 +17,7 @@ public class Retirement {
     Integer retirementId;
 
     Integer benefitId;
-    long IRA_AMOUNT; //401k
-    long PTB_AMOUNT; // 403B
-    long TSA_AMOUNT; // 457B
+    long irs_amount; //401k
+    long ptb_amount; // 403B
+    long tsa_amount; // 457B
 }

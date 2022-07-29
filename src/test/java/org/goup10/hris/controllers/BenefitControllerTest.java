@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,21 +39,99 @@ public class BenefitControllerTest{
         benefitRepository.deleteAll();
     }
     @Test
-    public void givenBenefitObject_whenCreateBenefit_thenReturnSavedBenefit() throws Exception{}
+    public void givenBenefitObject_whenCreateBenefit_thenReturnSavedBenefit() throws Exception {
+        Benefit benefit = Benefit.builder()
+                .build();
+
+        ResultActions resultActions = mockMvc.perform(post("/benefit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(benefit)));
+        resultActions.andDo(print()).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.benefitId", is(benefit.getBenefitId())));
+    }
     @Test
-    public void givenListOfBenefit_whenGetAllBenefit_thenReturnBenefitList() throws Exception {}
+    public void givenListOfBenefit_whenGetAllBenefit_thenReturnBenefitList() throws Exception {
+        List<Benefit> benefitList = new ArrayList<>();
+        Benefit benefit1 = Benefit.builder().build();
+        Benefit benefit2 = Benefit.builder().build();
+
+        benefitList.add(benefit1);
+        benefitList.add(benefit2);
+        benefitRepository.saveAll(benefitList);
+
+        ResultActions resultActions = mockMvc.perform(get("/benefit"));
+        resultActions.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()", is(benefitList)));
+    }
     @Test
-    public void givenBenefitId_whenGetBenefitById_thenReturnBenefitObject() throws Exception{}
+    public void givenBenefitId_whenGetBenefitById_thenReturnBenefitObject() throws Exception{
+        Benefit benefit = Benefit.builder()
+                .build();
+
+        Benefit savedBenefit = benefitRepository.save(benefit);
+        ResultActions resultActions = mockMvc.perform(get("/benefit/{id}", savedBenefit.getBenefitId()));
+
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.benefitId", is(benefit.getBenefitId())));
+
+    }
     @Test
-    public void givenInvalidBenefitId_whenGetBenefitById_thenReturnEmpty() throws Exception{}
+    public void givenInvalidBenefitId_whenGetBenefitById_thenReturnEmpty() throws Exception{
+        Integer invalidBenefitId = 1000;
+        Benefit benefit = Benefit.builder()
+                .build();
+        Benefit savedBenefit = benefitRepository.save(benefit);
+        ResultActions resultActions = mockMvc.perform(put("/benefit/{id}", invalidBenefitId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedBenefit)));
+        resultActions.andExpect(status().isNotFound()).andDo(print());
+    }
     @Test
-    public void givenUpdatedBenefit_whenUpdateBenefit_thenReturnUpdateBenefitObject() throws Exception{}
+    public void givenUpdatedBenefit_whenUpdateBenefit_thenReturnUpdateBenefitObject() throws Exception{
+        Benefit benefit = Benefit.builder()
+                .build();
+        Benefit savedBenefit = benefitRepository.save(benefit);
+
+        savedBenefit.getLife_insurance();
+
+        ResultActions resultActions = mockMvc.perform(put("/benefit/{id}", savedBenefit.getBenefitId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedBenefit)));
+
+        resultActions.andExpect(status().isOk()).andDo(print())
+                .andExpect(jsonPath("$.life_insurance", is(benefit.getLife_insurance())));
+
+    }
     @Test
-    public void givenUpdatedBenefit_whenUpdateBenefit_thenReturn404() throws Exception{}
+    public void givenUpdatedBenefit_whenUpdateBenefit_thenReturn404() throws Exception{
+        Integer invalidBenefitId = 1000;
+        Benefit benefit = Benefit.builder()
+                .build();
+        Benefit savedBenefit = benefitRepository.save(benefit);
+        ResultActions resultActions = mockMvc.perform(put("/benefit/{id}", invalidBenefitId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedBenefit)));
+        resultActions.andExpect(status().isNotFound()).andDo(print());
+    }
     @Test
     public void givenBenefitId_whenDeleteBenefit_thenReturn200() throws Exception{
+        Benefit benefit = Benefit.builder()
+                .build();
+
+        Benefit savedBenefit = benefitRepository.save(benefit);
+
+        ResultActions resultActions = mockMvc.perform(delete("/benefit/{id}", savedBenefit.getBenefitId()));
+        resultActions.andExpect(status().isOk()).andDo(print());
     }
     @Test
     public void givenBenefitId_whenDeleteBenefit_thenReturn404() throws Exception{
+        Integer invalidBenefitId = 1000;
+        Benefit benefit = Benefit.builder()
+                .build();
+        Benefit savedBenefit = benefitRepository.save(benefit);
+
+        ResultActions resultActions = mockMvc.perform(delete("/benefit/{id}", invalidBenefitId));
+        resultActions.andExpect(status().isNotFound()).andDo(print());
     }
 }

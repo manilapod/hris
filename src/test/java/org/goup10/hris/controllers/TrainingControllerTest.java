@@ -40,19 +40,90 @@ public class TrainingControllerTest {
         trainingRepository.deleteAll();
     }
     @Test
-    public void givenTrainingObject_whenCreateTraining_thenReturnSavedTraining() throws Exception{}
+    public void givenTrainingObject_whenCreateTraining_thenReturnSavedTraining() throws Exception {
+        Training training = Training.builder().build();
+
+        ResultActions resultActions = mockMvc.perform(post("/training")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(training)));
+        resultActions.andDo(print()).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.trainingId", is(training.getTrainingId())));
+    }
     @Test
-    public void givenListOfTraining_whenGetAllTraining_thenReturnTrainingList() throws Exception {}
+    public void givenListOfTraining_whenGetAllTraining_thenReturnTrainingList() throws Exception {
+        List<Training> trainingList = new ArrayList<>();
+        Training training1 = Training.builder().build();
+        Training training2 = Training.builder().build();
+
+        trainingList.add(training1);
+        trainingList.add(training2);
+        trainingRepository.saveAll(trainingList);
+
+        ResultActions resultActions = mockMvc.perform(get("/training"));
+        resultActions.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()", is(trainingList)));
+    }
     @Test
-    public void givenTrainingId_whenGetTrainingById_thenReturnTrainingObject() throws Exception{}
+    public void givenTrainingId_whenGetTrainingById_thenReturnTrainingObject() throws Exception{
+        Training training = Training.builder().build();
+        Training savedTraining = trainingRepository.save(training);
+        ResultActions resultActions = mockMvc.perform(get("/training/{id}", training.getTrainingId()));
+
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.trainingId", is(training.getTrainingId())));
+
+    }
     @Test
-    public void givenInvalidTrainingId_whenGetTrainingById_thenReturnEmpty() throws Exception{}
+    public void givenInvalidTrainingId_whenGetTrainingById_thenReturnEmpty() throws Exception{
+        Integer invalidTrainingId = 1000;
+        Training training = Training.builder().build();
+        Training savedTraining = trainingRepository.save(training);
+        ResultActions resultActions = mockMvc.perform(put("/training/{id}", invalidTrainingId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedTraining)));
+        resultActions.andExpect(status().isNotFound()).andDo(print());
+    }
     @Test
-    public void givenUpdatedTraining_whenUpdateTraining_thenReturnUpdateTrainingObject() throws Exception{}
+    public void givenUpdatedTraining_whenUpdateTraining_thenReturnUpdateTrainingObject() throws Exception{
+        Training training = Training.builder().build();
+        Training savedTraining = trainingRepository.save(training);
+
+        savedTraining.getTrainee_name();
+
+        ResultActions resultActions = mockMvc.perform(put("/training/{id}", training.getTrainingId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedTraining)));
+
+        resultActions.andExpect(status().isOk()).andDo(print())
+                .andExpect(jsonPath("$.trainee_name", is(training.getTrainee_name())));
+
+    }
     @Test
-    public void givenUpdatedTraining_whenUpdateTraining_thenReturn404() throws Exception{}
+    public void givenUpdatedTraining_whenUpdateTraining_thenReturn404() throws Exception{
+        Integer invalidTrainingId = 1000;
+        Training training = Training.builder().build();
+        Training savedTraining = trainingRepository.save(training);
+        ResultActions resultActions = mockMvc.perform(put("/training/{id}", invalidTrainingId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedTraining)));
+        resultActions.andExpect(status().isNotFound()).andDo(print());
+    }
     @Test
-    public void givenTrainingId_whenDeleteTraining_thenReturn200() throws Exception{}
+    public void givenTrainingId_whenDeleteTraining_thenReturn200() throws Exception{
+        Training training = Training.builder().build();
+        Training savedTraining = trainingRepository.save(training);
+
+        ResultActions resultActions = mockMvc.perform(delete("/training/{id}", savedTraining.getTrainingId()));
+        resultActions.andExpect(status().isOk()).andDo(print());
+    }
     @Test
-    public void givenTrainingId_whenDeleteTraining_thenReturn404() throws Exception{}
+    public void givenTrainingId_whenDeleteTraining_thenReturn404() throws Exception{
+        Integer invalidTrainingId = 1000;
+        Training training = Training.builder().build();
+        Training savedTraining = trainingRepository.save(training);
+
+        ResultActions resultActions = mockMvc.perform(delete("/training/{id}", invalidTrainingId));
+        resultActions.andExpect(status().isNotFound()).andDo(print());
+    }
 }

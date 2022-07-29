@@ -40,19 +40,89 @@ public class PTEControllerTest {
         pteRepository.deleteAll();
     }
     @Test
-    public void givenPTEObject_whenCreatePTE_thenReturnSavedPTE() throws Exception{}
+    public void givenPTEObject_whenCreatePTE_thenReturnSavedPTE() throws Exception {
+        PTE pte = PTE.builder()
+                .build();
+
+        ResultActions resultActions = mockMvc.perform(post("/pte")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(pte)));
+        resultActions.andDo(print()).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.pteId", is(pte.getPteId())));
+    }
     @Test
-    public void givenListOfPTE_whenGetAllPTE_thenReturnPTEList() throws Exception {}
+    public void givenListOfPTE_whenGetAllPTE_thenReturnPTEList() throws Exception {
+        List<PTE> pteList = new ArrayList<>();
+        PTE pte1 = PTE.builder().build();
+        PTE pte2 = PTE.builder().build();
+
+        pteList.add(pte1);
+        pteList.add(pte2);
+        pteRepository.saveAll(pteList);
+
+        ResultActions resultActions = mockMvc.perform(get("/pte"));
+        resultActions.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()", is(pteList)));
+    }
     @Test
-    public void givenPTEId_whenGetPTEById_thenReturnPTEObject() throws Exception{}
+    public void givenPTEId_whenGetPTEById_thenReturnPTEObject() throws Exception{
+        PTE pte = PTE.builder().build();
+        PTE savedPTE = pteRepository.save(pte);
+        ResultActions resultActions = mockMvc.perform(get("/pte/{id}", savedPTE.getPteId()));
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.pteId", is(pte.getPteId())));
+
+    }
     @Test
-    public void givenInvalidPTEId_whenGetPTEById_thenReturnEmpty() throws Exception{}
+    public void givenInvalidPTEId_whenGetPTEById_thenReturnEmpty() throws Exception{
+        Integer invalidPTEId = 1000;
+        PTE pte = PTE.builder().build();
+        PTE savedPTE = pteRepository.save(pte);
+        ResultActions resultActions = mockMvc.perform(put("/pte/{id}", invalidPTEId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedPTE)));
+        resultActions.andExpect(status().isNotFound()).andDo(print());
+    }
     @Test
-    public void givenUpdatedPTE_whenUpdatePTE_thenReturnUpdatePTEObject() throws Exception{}
+    public void givenUpdatedPTE_whenUpdatePTE_thenReturnUpdatePTEObject() throws Exception{
+        PTE pte = PTE.builder().build();
+        PTE savedPTE = pteRepository.save(pte);
+
+        savedPTE.getFirst_name();
+
+        ResultActions resultActions = mockMvc.perform(put("/pte/{id}", savedPTE.getPteId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedPTE)));
+
+        resultActions.andExpect(status().isOk()).andDo(print())
+                .andExpect(jsonPath("$.first_name", is(pte.getFirst_name())));
+
+    }
     @Test
-    public void givenUpdatedPTE_whenUpdatePTE_thenReturn404() throws Exception{}
+    public void givenUpdatedPTE_whenUpdatePTE_thenReturn404() throws Exception{
+        Integer invalidPTEId = 1000;
+        PTE pte = PTE.builder().build();
+        PTE savedPTE = pteRepository.save(pte);
+        ResultActions resultActions = mockMvc.perform(put("/pte/{id}", invalidPTEId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(savedPTE)));
+        resultActions.andExpect(status().isNotFound()).andDo(print());
+    }
     @Test
-    public void givenPTEId_whenDeletePTE_thenReturn200() throws Exception{}
+    public void givenPTEId_whenDeletePTE_thenReturn200() throws Exception{
+        PTE pte = PTE.builder().build();
+        PTE savedPTE = pteRepository.save(pte);
+        ResultActions resultActions = mockMvc.perform(delete("/pte/{id}", savedPTE.getPteId()));
+        resultActions.andExpect(status().isOk()).andDo(print());
+    }
     @Test
-    public void givenPTEId_whenDeletePTE_thenReturn404() throws Exception{}
+    public void givenPTEId_whenDeletePTE_thenReturn404() throws Exception{
+        Integer invalidPTEId = 1000;
+        PTE pte = PTE.builder().build();
+        PTE savedPTE = pteRepository.save(pte);
+        ResultActions resultActions = mockMvc.perform(delete("/pte/{id}", invalidPTEId));
+        resultActions.andExpect(status().isNotFound()).andDo(print());
+    }
 }
+
