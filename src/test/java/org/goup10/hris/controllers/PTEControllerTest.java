@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.security.Timestamp;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,16 +43,16 @@ public class PTEControllerTest {
     @Test
     public void givenPTEObject_whenCreatePTE_thenReturnSavedPTE() throws Exception {
         PTE pte = PTE.builder()
-                .pteId()
-                .trainingId()
-                .email()
-                .app_status()
-                .first_name()
-                .last_name()
-                .position()
-                .zip_code()
-                .data_applied()
-                .last_update()
+                .pteId(1)
+                .trainingId(1)
+                .email("test@gmail.com")
+                .app_status("Likey")
+                .first_name("test")
+                .last_name("Test")
+                .position("Tester")
+                .zip_code(208)
+                .data_applied(String.valueOf(2015-2-25))
+                //.last_update(new Timestamp()) need to be fix
                 .build();
 
         ResultActions resultActions = mockMvc.perform(post("/pte")
@@ -73,28 +74,28 @@ public class PTEControllerTest {
     public void givenListOfPTE_whenGetAllPTE_thenReturnPTEList() throws Exception {
         List<PTE> pteList = new ArrayList<>();
         PTE pte1 = PTE.builder()
-                .pteId()
-                .trainingId()
-                .email()
-                .app_status()
-                .first_name()
-                .last_name()
-                .position()
-                .zip_code()
-                .data_applied()
-                .last_update()
+                .pteId(1)
+                .trainingId(1)
+                .email("test@gmail.com")
+                .app_status("Likey")
+                .first_name("test")
+                .last_name("Test")
+                .position("Tester")
+                .zip_code(208)
+                .data_applied(String.valueOf(2015-2-25))
+                //.last_update(new Timestamp()) need to be fix
                 .build();
         PTE pte2 = PTE.builder()
-                .pteId()
-                .trainingId()
-                .email()
-                .app_status()
-                .first_name()
-                .last_name()
-                .position()
-                .zip_code()
-                .data_applied()
-                .last_update()
+                .pteId(1)
+                .trainingId(1)
+                .email("test@gmail.com")
+                .app_status("Likey")
+                .first_name("test")
+                .last_name("Test")
+                .position("Tester")
+                .zip_code(208)
+                .data_applied(String.valueOf(2015-2-25))
+                //.last_update(new Timestamp()) need to be fix
                 .build();
 
         pteList.add(pte1);
@@ -109,39 +110,39 @@ public class PTEControllerTest {
     @Test
     public void givenPTEId_whenGetPTEById_thenReturnPTEObject() throws Exception{
         PTE pte = PTE.builder()
-                .pteId()
-                .trainingId()
-                .email()
-                .app_status()
-                .first_name()
-                .last_name()
-                .position()
-                .zip_code()
-                .data_applied()
-                .last_update()
+                .pteId(1)
+                .trainingId(1)
+                .email("test@gmail.com")
+                .app_status("Likey")
+                .first_name("test")
+                .last_name("Test")
+                .position("Tester")
+                .zip_code(208)
+                .data_applied(String.valueOf(2015-2-25))
+                //.last_update(new Timestamp()) need to be fix
                 .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(get("/pte/{id}", savedPTE.getPteId()));
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.first_name", is(pte.getFirst_name())))
                 .andExpect(jsonPath("$.last_name", is(pte.getLast_name())))
-                .andExpect(jsonPath("$.position", is(pte.getPosition())))
+                .andExpect(jsonPath("$.position", is(pte.getPosition())));
 
     }
     @Test
     public void givenInvalidPTEId_whenGetPTEById_thenReturnEmpty() throws Exception{
         Integer invalidPTEId = 1000;
         PTE pte = PTE.builder()
-                .pteId()
-                .trainingId()
-                .email()
-                .app_status()
-                .first_name()
-                .last_name()
-                .position()
-                .zip_code()
-                .data_applied()
-                .last_update()
+                .pteId(1)
+                .trainingId(1)
+                .email("test@gmail.com")
+                .app_status("Likey")
+                .first_name("test")
+                .last_name("Test")
+                .position("Tester")
+                .zip_code(208)
+                .data_applied(String.valueOf(2015-2-25))
+                //.last_update(new Timestamp()) need to be fix
                 .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(put("/pte/{id}", invalidPTEId)
@@ -152,16 +153,16 @@ public class PTEControllerTest {
     @Test
     public void givenUpdatedPTE_whenUpdatePTE_thenReturnUpdatePTEObject() throws Exception{
         PTE pte = PTE.builder()
-                .pteId()
-                .trainingId()
-                .email()
-                .app_status()
-                .first_name()
-                .last_name()
-                .position()
-                .zip_code()
-                .data_applied()
-                .last_update()
+                .pteId(1)
+                .trainingId(1)
+                .email("test@gmail.com")
+                .app_status("Likey")
+                .first_name("test")
+                .last_name("Test")
+                .position("Tester")
+                .zip_code(208)
+                .data_applied(String.valueOf(2015-2-25))
+                //.last_update(new Timestamp()) need to be fix
                 .build();
         PTE savedPTE = pteRepository.save(pte);
 
@@ -179,16 +180,16 @@ public class PTEControllerTest {
     public void givenUpdatedPTE_whenUpdatePTE_thenReturn404() throws Exception{
         Integer invalidPTEId = 1000;
         PTE pte = PTE.builder()
-                .pteId()
-                .trainingId()
-                .email()
-                .app_status()
-                .first_name()
-                .last_name()
-                .position()
-                .zip_code()
-                .data_applied()
-                .last_update()
+                .pteId(1)
+                .trainingId(1)
+                .email("test@gmail.com")
+                .app_status("Likey")
+                .first_name("test")
+                .last_name("Test")
+                .position("Tester")
+                .zip_code(208)
+                .data_applied(String.valueOf(2015-2-25))
+                //.last_update(new Timestamp()) need to be fix
                 .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(put("/pte/{id}", invalidPTEId)
@@ -199,16 +200,16 @@ public class PTEControllerTest {
     @Test
     public void givenPTEId_whenDeletePTE_thenReturn200() throws Exception{
         PTE pte = PTE.builder()
-                .pteId()
-                .trainingId()
-                .email()
-                .app_status()
-                .first_name()
-                .last_name()
-                .position()
-                .zip_code()
-                .data_applied()
-                .last_update()
+                .pteId(1)
+                .trainingId(1)
+                .email("test@gmail.com")
+                .app_status("Likey")
+                .first_name("test")
+                .last_name("Test")
+                .position("Tester")
+                .zip_code(208)
+                .data_applied(String.valueOf(2015-2-25))
+                //.last_update(new Timestamp()) need to be fix
                 .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(delete("/pte/{id}", savedPTE.getPteId()));
@@ -218,16 +219,16 @@ public class PTEControllerTest {
     public void givenPTEId_whenDeletePTE_thenReturn404() throws Exception{
         Integer invalidPTEId = 1000;
         PTE pte = PTE.builder()
-                .pteId()
-                .trainingId()
-                .email()
-                .app_status()
-                .first_name()
-                .last_name()
-                .position()
-                .zip_code()
-                .data_applied()
-                .last_update()
+                .pteId(1)
+                .trainingId(1)
+                .email("test@gmail.com")
+                .app_status("Likey")
+                .first_name("test")
+                .last_name("Test")
+                .position("Tester")
+                .zip_code(208)
+                .data_applied(String.valueOf(2015-2-25))
+                //.last_update(new Timestamp()) need to be fix
                 .build();
         PTE savedPTE = pteRepository.save(pte);
         ResultActions resultActions = mockMvc.perform(delete("/pte/{id}", invalidPTEId));
