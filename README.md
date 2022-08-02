@@ -62,7 +62,7 @@ A good starting point would be to look at the following classes:
 - [Employee](src/main/java/org/goup10/hris/entities/Employee.java) - which defines an entity
 - [EmployeeRepository](src/main/java/org/goup10/hris/repositories/EmployeeRepository.java) - which defines the repository
 - [EmployeeController](src/main/java/org/goup10/hris/controllers/EmployeeController.java) - which defines REST API
-- [EmployeeControllerTest](src/test/java/org/goup10/hris/controllers/EmployeeControllerTest.java) - which test the `EmployeeController`
+- [EmployeeControllerTest](src/test/java/org/goup10/hris/controllers/EmployeeControllerTest.java) - which tests the `EmployeeController`
 
 There is also relevant [HELP](HELP.md) document for you to explore further.
 
