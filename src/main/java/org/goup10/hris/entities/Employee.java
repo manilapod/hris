@@ -3,6 +3,7 @@ package org.goup10.hris.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Setter
@@ -27,6 +28,6 @@ public class Employee {
     String state;
     Boolean inTraining;
     Integer performance;
-    Date startedDate;
+    Timestamp startedDate;
     String lastUpdate;
 }

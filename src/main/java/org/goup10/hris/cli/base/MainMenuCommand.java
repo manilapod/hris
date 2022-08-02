@@ -4,8 +4,8 @@ import org.goup10.hris.cli.RootComponent;
 
 import java.util.Map;
 
-public class MainMenuComand extends BaseCommand {
-    public MainMenuComand() {
+public class MainMenuCommand extends BaseCommand {
+    public MainMenuCommand() {
         super("Go to Main Menu");
     }
 
